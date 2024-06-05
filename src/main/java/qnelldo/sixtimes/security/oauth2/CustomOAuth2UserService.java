@@ -25,6 +25,20 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
     @Override
     public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
         OAuth2User oAuth2User = super.loadUser(userRequest);
+        return processOAuth2User(userRequest, oAuth2User);
+    }
+
+    public CustomOAuth2User loadUserByUserId(String userId) {
+        User user = userService.findByProviderAndProviderId("google", userId)
+                .orElseThrow(() -> new OAuth2AuthenticationException("User not found"));
+        return new CustomOAuth2User(
+                Collections.singletonList(new SimpleGrantedAuthority("ROLE_USER")),
+                user.toAttributes(),
+                "name"
+        );
+    }
+
+    private OAuth2User processOAuth2User(OAuth2UserRequest userRequest, OAuth2User oAuth2User) {
         String provider = userRequest.getClientRegistration().getRegistrationId();
         String providerId = oAuth2User.getName();
         Map<String, Object> attributes = oAuth2User.getAttributes();
