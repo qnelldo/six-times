@@ -3,9 +3,11 @@ package qnelldo.sixtimes.security.jwt;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.security.Keys;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Component;
 
+import javax.crypto.SecretKey;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -14,8 +16,8 @@ import java.util.function.Function;
 @Component
 public class JwtUtil {
 
-    private String secret = "mySecretKey"; // 비밀 키
-    private long expiration = 3600; // 만료 시간 (초 단위)
+    private final SecretKey secretKey = Keys.secretKeyFor(SignatureAlgorithm.HS256); // 비밀 키 생성
+    private final long expiration = 3600; // 만료 시간 (초 단위)
 
     public String generateToken(OAuth2User oAuth2User) {
         Map<String, Object> claims = new HashMap<>();
@@ -24,7 +26,7 @@ public class JwtUtil {
         return Jwts.builder()
                 .setClaims(claims)
                 .setExpiration(new Date(System.currentTimeMillis() + expiration * 1000))
-                .signWith(SignatureAlgorithm.HS256, secret)
+                .signWith(secretKey)
                 .compact();
     }
 
@@ -42,7 +44,7 @@ public class JwtUtil {
     }
 
     private Claims extractAllClaims(String token) {
-        return Jwts.parser().setSigningKey(secret).parseClaimsJws(token).getBody();
+        return Jwts.parserBuilder().setSigningKey(secretKey).build().parseClaimsJws(token).getBody();
     }
 
     private Boolean isTokenExpired(String token) {

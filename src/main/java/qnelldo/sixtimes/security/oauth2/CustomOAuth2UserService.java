@@ -28,16 +28,18 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
         return processOAuth2User(userRequest, oAuth2User);
     }
 
+    // 새로운 메소드: userId를 기반으로 OAuth2 사용자를 로드
     public CustomOAuth2User loadUserByUserId(String userId) {
         User user = userService.findByProviderAndProviderId("google", userId)
                 .orElseThrow(() -> new OAuth2AuthenticationException("User not found"));
         return new CustomOAuth2User(
                 Collections.singletonList(new SimpleGrantedAuthority("ROLE_USER")),
-                user.toAttributes(),
+                user.toAttributes(), // User 엔티티의 속성들을 맵으로 변환하여 사용
                 "name"
         );
     }
 
+    // OAuth2 사용자를 처리하는 메소드
     private OAuth2User processOAuth2User(OAuth2UserRequest userRequest, OAuth2User oAuth2User) {
         String provider = userRequest.getClientRegistration().getRegistrationId();
         String providerId = oAuth2User.getName();
@@ -45,6 +47,7 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
         String email = (String) attributes.get("email");
         String name = (String) attributes.get("name");
 
+        // User 엔티티를 데이터베이스에서 찾거나 새로 생성
         User user = userService.findByProviderAndProviderId(provider, providerId)
                 .orElseGet(() -> {
                     User newUser = new User();
