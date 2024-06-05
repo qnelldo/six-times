@@ -1,6 +1,5 @@
 package qnelldo.sixtimes.domain.user.mongodb.controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import qnelldo.sixtimes.domain.user.mongodb.document.UserProfile;
 import qnelldo.sixtimes.domain.user.mongodb.service.UserProfileService;

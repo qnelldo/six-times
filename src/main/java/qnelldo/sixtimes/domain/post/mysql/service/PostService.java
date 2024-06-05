@@ -1,9 +1,10 @@
-package qnelldo.sixtimes.domain.post.service;
+package qnelldo.sixtimes.domain.post.mysql.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import qnelldo.sixtimes.domain.post.entity.Post;
-import qnelldo.sixtimes.domain.post.repository.PostRepository;
+import qnelldo.sixtimes.domain.post.mongodb.document.PostDocument;
+import qnelldo.sixtimes.domain.post.mongodb.repository.PostDocumentRepository;
+import qnelldo.sixtimes.domain.post.mysql.entity.Post;
+import qnelldo.sixtimes.domain.post.mysql.repository.PostRepository;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -13,8 +14,10 @@ import java.util.Optional;
 public class PostService {
 
     private final PostRepository postRepository;
+    private final PostDocumentRepository postDocumentRepository;
 
-    public PostService(PostRepository postRepository) {
+    public PostService(PostRepository postRepository, PostDocumentRepository postDocumentRepository) {
+        this.postDocumentRepository = postDocumentRepository;
         this.postRepository = postRepository;
     }
 

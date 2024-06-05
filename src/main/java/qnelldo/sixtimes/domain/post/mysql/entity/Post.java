@@ -1,4 +1,4 @@
-package qnelldo.sixtimes.domain.post.entity;
+package qnelldo.sixtimes.domain.post.mysql.entity;
 
 import jakarta.persistence.*;
 import lombok.Data;

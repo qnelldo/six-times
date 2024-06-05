@@ -1,11 +1,10 @@
-package qnelldo.sixtimes.domain.post.controller;
+package qnelldo.sixtimes.domain.post.mysql.controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.web.bind.annotation.*;
-import qnelldo.sixtimes.domain.post.entity.Post;
-import qnelldo.sixtimes.domain.post.service.PostService;
+import qnelldo.sixtimes.domain.post.mysql.entity.Post;
+import qnelldo.sixtimes.domain.post.mysql.service.PostService;
 
 import java.util.List;
 import java.util.Optional;

@@ -1,6 +1,5 @@
 package qnelldo.sixtimes.domain.user.mysql.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import qnelldo.sixtimes.domain.user.mysql.entity.User;
 import qnelldo.sixtimes.domain.user.mysql.repository.UserRepository;
